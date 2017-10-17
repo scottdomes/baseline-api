@@ -14,7 +14,11 @@ module.exports = function(app, db) {
   });
 
   app.post('/records', (req, res) => {
-    var entry = new RecordModel({ type: req.body.type, value: req.body.value });
+    var entry = new RecordModel({
+      type: req.body.type,
+      value: req.body.value,
+      location: req.body.location
+    });
 
     entry.save(function(error) {
       console.log('Your entry has been saved.');
