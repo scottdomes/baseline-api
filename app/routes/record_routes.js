@@ -1,6 +1,12 @@
 var RecordModel = require('../models/record');
 
 module.exports = function(app, db) {
+  app.get('/records', (req, res) => {
+    RecordModel.find(function(err, models) {
+      res.send(models);
+    });
+  });
+
   app.get('/records/:id', (req, res) => {
     RecordModel.findById(req.params.id, function(err, model) {
       res.send(model);
