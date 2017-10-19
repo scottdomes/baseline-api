@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 
-const port = 8000;
+const port = process.env.PORT || 5000;
 
 var db = mongoose.connection;
 
