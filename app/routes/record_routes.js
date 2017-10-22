@@ -22,10 +22,10 @@ module.exports = function(app, db) {
     });
 
     entry.save(function(error) {
-      console.log('Your entry has been saved.');
-      res.send(entry);
       if (error) {
-        console.error(error);
+        res.send(error.errors);
+      } else {
+        res.send(entry);
       }
     });
   });
