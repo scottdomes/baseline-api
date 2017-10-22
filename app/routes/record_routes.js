@@ -17,7 +17,8 @@ module.exports = function(app, db) {
     var entry = new RecordModel({
       type: req.body.type,
       value: req.body.value,
-      location: req.body.location
+      location: req.body.location,
+      tags: req.body.tags
     });
 
     entry.save(function(error) {
