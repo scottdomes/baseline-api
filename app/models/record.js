@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+const TagSchema = require('./tag').schema;
 var Schema = mongoose.Schema;
 
 var RecordSchema = new Schema({
@@ -11,18 +12,16 @@ var RecordSchema = new Schema({
     type: Number,
     validate: {
       validator: function(v) {
-        console.log(v)
-        return v > 0 && v < 11
+        console.log(v);
+        return v > 0 && v < 11;
       },
       message: '{VALUE} is not a valid value.'
     },
     required: [true, 'Record value is required.']
   },
   location: String,
-  tags: [{ body: String }],
+  tags: [TagSchema],
   date: { type: Date, default: Date.now }
-})
+});
 
-module.exports = mongoose.model("Record", RecordSchema)
-
-
+module.exports = mongoose.model('Record', RecordSchema);

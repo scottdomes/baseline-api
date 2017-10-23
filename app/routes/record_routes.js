@@ -1,4 +1,5 @@
 var RecordModel = require('../models/record');
+const TagModel = require('../models/tag').model;
 
 module.exports = function(app, db) {
   app.get('/records', (req, res) => {
@@ -14,16 +15,30 @@ module.exports = function(app, db) {
   });
 
   app.post('/records', (req, res) => {
-    var entry = new RecordModel({
+    const entry = new RecordModel({
       type: req.body.type,
       value: req.body.value,
       location: req.body.location,
       tags: req.body.tags
     });
+    const tagErrors = [];
+
+    req.body.tags.forEach(tag => {
+      TagModel.findOne({ text: tag.text }, (err, match) => {
+        if (!match) {
+          var newTag = new TagModel({
+            text: tag.text
+          });
+          newTag.save(err => {
+            tagErrors.push(err);
+          });
+        }
+      });
+    });
 
     entry.save(function(error) {
-      if (error) {
-        res.send(error.errors);
+      if (error || tagErrors.length > 0) {
+        res.send(error.errors, tagErrors);
       } else {
         res.send(entry);
       }
